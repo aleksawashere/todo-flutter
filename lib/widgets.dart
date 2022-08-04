@@ -1,9 +1,13 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 
 class TaskCardWidget extends StatelessWidget {
-  const TaskCardWidget({Key? key}) : super(key: key);
+
+
+  final String? title;
+  final String? desc;
+  TaskCardWidget({this.title, this.desc});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +17,10 @@ class TaskCardWidget extends StatelessWidget {
         vertical: 32.0,
         horizontal: 24.0,
       ),
-      decoration: BoxDecoration(
+      margin: EdgeInsets.only(
+        bottom: 20.0,
+      ),
+        decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -21,9 +28,9 @@ class TaskCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Get Started",
+            title ?? "Unnamed Task",
             style: TextStyle(
-              color: Color(0xFF211551),
+              color: Color(0xFFD95B07),
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
             ),
@@ -33,7 +40,7 @@ class TaskCardWidget extends StatelessWidget {
               top:10.0,
             ),
             child: Text(
-              "Subtext text. Welcome to the todo app.",
+              desc ?? "No description added.",
               style: TextStyle(
                 color: Color(0xFF86829D),
                 fontSize: 16.0,
