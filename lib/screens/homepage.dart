@@ -21,10 +21,15 @@ class _HomepageState extends State<Homepage> {
             crossAxisAlignment: CrossAxisAlignment.start, //everything starts from the left
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              Image(
-                width: 60,
-                height: 60,
-                image: AssetImage('assets/images/logo.png'),
+              Container(
+                margin: EdgeInsets.only(
+                  bottom: 32.0,
+                ),
+                child: Image(
+                  width: 60,
+                  height: 60,
+                  image: AssetImage('assets/images/logo.png'),
+                ),
               ),
               TaskCardWidget(),
             ],
