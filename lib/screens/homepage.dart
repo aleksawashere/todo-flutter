@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_flutter/screens/taskpage.dart';
 import 'package:todo_flutter/widgets.dart';
 
 class Homepage extends StatefulWidget {
@@ -15,7 +16,9 @@ class _HomepageState extends State<Homepage> {
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.all(30),
+          padding: EdgeInsets.symmetric(
+            horizontal: 24.0,
+          ),
           color:Color(0xFFF6F6F6),
           child: Stack(
             children: [
@@ -25,6 +28,7 @@ class _HomepageState extends State<Homepage> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(
+                      top: 24.0,
                       bottom: 32.0,
                     ),
                     child: Image(
@@ -33,32 +37,55 @@ class _HomepageState extends State<Homepage> {
                       image: AssetImage('assets/images/logo.png'),
                     ),
                   ),
-                  TaskCardWidget(
-                    title: "Title1",
-                    desc: "Description 1.",
-                  ),
-                  TaskCardWidget(),
-
-                ],
-              ),
-              Positioned(
-                bottom: 0.0,
-                right: 0.0,
-                child: Container(
-                  width: 60.0,
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFD95B07),
-                    borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Image(
-                      image: AssetImage(
-                        "assets/images/add_icon.png"
+                  Expanded(
+                    child: ScrollConfiguration(
+                      behavior: NoGlowBehaviour(),
+                      child: ListView(
+                        children: [
+                          TaskCardWidget(
+                            title: "Title1",
+                            desc: "Description 1.",
+                          ),
+                          TaskCardWidget(),
+                          TaskCardWidget(),
+                          TaskCardWidget(),
+                          TaskCardWidget(),
+                        ],
                       ),
                     ),
                   )
+                ],
+              ),
+              Positioned(
+                bottom: 24.0,
+                right: 0.0,
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context,MaterialPageRoute(
+                      builder: (context) => Taskpage()
+                    ),
+                    );
+                  },
+                  child: Container(
+                    width: 60.0,
+                    height: 60.0,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFFFF7414), Color(0xFFFF491E)],
+                        begin: Alignment(0.0,1.0),
+                        end: Alignment(0.0, -1.0)
+                      ),
+                      borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Image(
+                        image: AssetImage(
+                          "assets/images/add_icon.png"
+                        ),
+                      ),
+                    )
+                  ),
                 ),
               )
             ],
