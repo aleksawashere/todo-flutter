@@ -53,7 +53,7 @@ class _TaskpageState extends State<Taskpage> {
                               
                               await _dbHelper.insertTask(_newTask);
 
-                              print("New task has been created!");
+                              print("New task has been created! $_newTask");
                             }
                           },
                           decoration: InputDecoration(

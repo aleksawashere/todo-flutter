@@ -12,7 +12,7 @@ class DatabaseHelper{
         join(await getDatabasesPath(), 'todo.db'),
         onCreate: (db, version) {
           return db.execute(
-            "CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, description TEXT)",
+            "CREATE TABLE tasks(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, title TEXT, description TEXT)",
           );
         },
       version: 1,
@@ -26,4 +26,11 @@ class DatabaseHelper{
 
   }
 
+  Future<List<Task>> getTasks() async{
+    Database _db = await database();
+    List<Map<String,dynamic>> taskMap = await _db.query('tasks');
+    return List.generate(taskMap.length, (index) {
+      return Task(title: taskMap[index]['title'], description: taskMap[index]['description']);
+    });
+  }
 }

@@ -1,15 +1,19 @@
 class Task{
-  final int id;
+  int? id;
   final String title;
   final String description;
 
-  Task ({this.id = 0, this.title = 'Undefined', this.description = 'Undefined'});
+  Task({this.title = 'Undefined', this.description = 'Undefined'});
 
   Map<String, dynamic> toMap(){
     return {
-      'id': id,
       'title': title,
       'description': description,
     };
+  }
+
+  @override
+  String toString() {
+    return 'Task{id: $id, title: $title, desc: $description}';
   }
 }
