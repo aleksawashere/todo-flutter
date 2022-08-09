@@ -4,14 +4,25 @@ import 'package:todo_flutter/widgets.dart';
 
 import '../models/task.dart';
 
+int valueOfID = 0;//need to put value of an id to current max id value
+
 class Taskpage extends StatefulWidget {
-  const Taskpage({Key? key}) : super(key: key);
+
+  int id;
+  Taskpage({required this.id});
 
   @override
   State<Taskpage> createState() => _TaskpageState();
 }
 
 class _TaskpageState extends State<Taskpage> {
+
+  @override
+  void initState() {
+    print(widget.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +59,12 @@ class _TaskpageState extends State<Taskpage> {
                             if(value != ""){
                               DatabaseHelper _dbHelper = DatabaseHelper();
                               Task _newTask = Task(
-                                title: value
+                                id: valueOfID,
+                                title: value,
+                                description: "Undefined"
                               );
-                              
+
+                              valueOfID++;
                               await _dbHelper.insertTask(_newTask);
 
                               print("New task has been created! $_newTask");
@@ -99,12 +113,12 @@ class _TaskpageState extends State<Taskpage> {
                   bottom: 24.0,
                   right: 24.0,
                   child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(context,MaterialPageRoute(
-                          builder: (context) => Taskpage()
-                      ),
-                      );
-                    },
+                    // onTap: (){
+                    //   Navigator.push(context,MaterialPageRoute(
+                    //       builder: (context) => Taskpage()
+                    //   ),
+                    //   );
+                    // },
                     child: Container(
                         width: 60.0,
                         height: 60.0,

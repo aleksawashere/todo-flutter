@@ -11,7 +11,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-
   DatabaseHelper _dbHelper = DatabaseHelper();
 
   @override
@@ -51,9 +50,21 @@ class _HomepageState extends State<Homepage> {
                           behavior: NoGlowBehaviour(),
                           child: ListView.builder(
                             itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index){
-                              return TaskCardWidget(
-                                title: snapshot.data[index].title,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Taskpage(
+                                        id: snapshot.data[index].id,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: TaskCardWidget(
+                                  title: snapshot.data[index].title,
+                                ),
                               );
                             },
                           ),
@@ -68,9 +79,9 @@ class _HomepageState extends State<Homepage> {
                 right: 0.0,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => Taskpage()
-                    ),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Taskpage(id: 0)),
                     ).then((value) {
                       setState(() {}); //refresh all inserted tasks on home page
                     });
@@ -82,19 +93,14 @@ class _HomepageState extends State<Homepage> {
                           gradient: LinearGradient(
                               colors: [Color(0xFFFF7414), Color(0xFFFF491E)],
                               begin: Alignment(0.0, 1.0),
-                              end: Alignment(0.0, -1.0)
-                          ),
-                          borderRadius: BorderRadius.circular(20.0)
-                      ),
+                              end: Alignment(0.0, -1.0)),
+                          borderRadius: BorderRadius.circular(20.0)),
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Image(
-                          image: AssetImage(
-                              "assets/images/add_icon.png"
-                          ),
+                          image: AssetImage("assets/images/add_icon.png"),
                         ),
-                      )
-                  ),
+                      )),
                 ),
               )
             ],
