@@ -57,7 +57,7 @@ class _HomepageState extends State<Homepage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => Taskpage(
-                                        id: snapshot.data[index].id,
+                                        task: snapshot.data[index],
                                       ),
                                     ),
                                   );
@@ -81,7 +81,7 @@ class _HomepageState extends State<Homepage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Taskpage(id: 0)),
+                      MaterialPageRoute(builder: (context) => Taskpage(task: null,)),
                     ).then((value) {
                       setState(() {}); //refresh all inserted tasks on home page
                     });

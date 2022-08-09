@@ -8,8 +8,8 @@ int valueOfID = 0;//need to put value of an id to current max id value
 
 class Taskpage extends StatefulWidget {
 
-  int id;
-  Taskpage({required this.id});
+  Task? task;
+  Taskpage({required this.task});
 
   @override
   State<Taskpage> createState() => _TaskpageState();
@@ -19,7 +19,7 @@ class _TaskpageState extends State<Taskpage> {
 
   @override
   void initState() {
-    print(widget.id);
+    print("ID: ${widget.task?.id}");
     super.initState();
   }
 
@@ -56,19 +56,30 @@ class _TaskpageState extends State<Taskpage> {
                         child: TextField(
                           onSubmitted: (value) async{
 
+                            //check if the field is not empty
                             if(value != ""){
-                              DatabaseHelper _dbHelper = DatabaseHelper();
-                              Task _newTask = Task(
-                                id: valueOfID,
-                                title: value,
-                                description: "Undefined"
-                              );
+                              //check if the task is null
+                              if(widget.task==null)
+                              {
+                                DatabaseHelper _dbHelper = DatabaseHelper();
+                                Task _newTask = Task(
+                                    id: valueOfID,
+                                    title: value,
+                                    description: "Undefined"
+                                );
 
-                              valueOfID++;
-                              await _dbHelper.insertTask(_newTask);
+                                print(_newTask);
 
-                              print("New task has been created! $_newTask");
+                                valueOfID++;
+                                await _dbHelper.insertTask(_newTask);
+
+                              }
+                              else{
+                                print("Update the existing task!!!");
+                              }
                             }
+
+
                           },
                           decoration: InputDecoration(
                             hintText: "Enter Task Title",
