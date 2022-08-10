@@ -6,8 +6,7 @@ import 'package:todo_flutter/widgets.dart';
 import '../models/task.dart';
 
 int valueOfIDTask = 0; //need to put value of an current max id value of task
-int valueOfIDTodo =
-    0; //need to put value of an current max id value of todo in certain task
+int valueOfIDTodo = 0; //need to put value of an current max id value of todo in certain task
 
 class Taskpage extends StatefulWidget {
   Task? task;
