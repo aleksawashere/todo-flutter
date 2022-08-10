@@ -60,10 +60,15 @@ class _HomepageState extends State<Homepage> {
                                         task: snapshot.data[index],
                                       ),
                                     ),
+                                  ).then(
+                                    (value) {
+                                      setState(() {});
+                                    },
                                   );
                                 },
                                 child: TaskCardWidget(
                                   title: snapshot.data[index].title,
+                                  desc: snapshot.data[index].description,
                                 ),
                               );
                             },
@@ -81,7 +86,10 @@ class _HomepageState extends State<Homepage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Taskpage(task: null,)),
+                      MaterialPageRoute(
+                          builder: (context) => Taskpage(
+                                task: null,
+                              )),
                     ).then((value) {
                       setState(() {}); //refresh all inserted tasks on home page
                     });

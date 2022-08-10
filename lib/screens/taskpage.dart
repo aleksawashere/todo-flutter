@@ -103,9 +103,19 @@ class _TaskpageState extends State<Taskpage> {
                                 print(_newTask);
 
                                 valueOfIDTask++;
-                                await _dbHelper.insertTask(_newTask);
+                                _taskId = await _dbHelper.insertTask(_newTask);
+
+                                setState(() {
+                                  _contentVisible = true;
+                                  _taskTitle = value;
+                                });
+
+                                print("New TaskId: $_taskId");
                               } else {
-                                print("Update the existing task!!!");
+
+                                await _dbHelper.updateTaskTitle(_taskId, value);
+                                print("Updated the existing task!");
+
                               }
 
                               _descriptionFocus.requestFocus();
@@ -139,6 +149,11 @@ class _TaskpageState extends State<Taskpage> {
                   child: TextField(
                     focusNode: _descriptionFocus,
                     onSubmitted: (value) {
+                      if(value != ""){
+                        if(_taskId != 0){
+                          _dbHelper.updateTaskDescription(_taskId, value);
+                        }
+                      }
                       _todoFocus.requestFocus();
                     },
                     decoration: InputDecoration(

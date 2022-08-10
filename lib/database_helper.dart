@@ -22,15 +22,27 @@ class DatabaseHelper{
     );
   }
 
-  Future<void> insertTask(Task task) async {
-
+  Future<int> insertTask(Task task) async {
+    int taskId = 0;
     final db = await database();
     await db.insert(
         'tasks',
         task.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    ).then((value) {
+      taskId = value;
+    });
+    return taskId;
+  }
 
+  Future<void> updateTaskTitle(int id, String title) async{
+    Database _db = await database();
+    await _db.rawUpdate("UPDATE tasks SET title = '$title' WHERE id = '$id'");
+  }
+
+  Future<void> updateTaskDescription(int id, String description) async{
+    Database _db = await database();
+    await _db.rawUpdate("UPDATE tasks SET description = '$description' WHERE id = '$id'");
   }
 
   Future<void> insertTodo(Todo todo) async {
