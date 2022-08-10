@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:todo_flutter/database_helper.dart';
 import 'package:todo_flutter/screens/taskpage.dart';
 import 'package:todo_flutter/widgets.dart';
@@ -11,6 +12,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+
   DatabaseHelper _dbHelper = DatabaseHelper();
 
   @override
@@ -60,10 +62,15 @@ class _HomepageState extends State<Homepage> {
                                         task: snapshot.data[index],
                                       ),
                                     ),
+                                  ).then(
+                                    (value) {
+                                      setState(() {});
+                                    },
                                   );
                                 },
                                 child: TaskCardWidget(
                                   title: snapshot.data[index].title,
+                                  desc: snapshot.data[index].description,
                                 ),
                               );
                             },
@@ -81,7 +88,10 @@ class _HomepageState extends State<Homepage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Taskpage(task: null,)),
+                      MaterialPageRoute(
+                          builder: (context) => Taskpage(
+                                task: null,
+                              )),
                     ).then((value) {
                       setState(() {}); //refresh all inserted tasks on home page
                     });
