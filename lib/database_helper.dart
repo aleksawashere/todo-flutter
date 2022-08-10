@@ -71,4 +71,15 @@ class DatabaseHelper{
       return Todo(id: todoMap[index]['id'],title: todoMap[index]['title'], isDone: todoMap[index]['isDone'], taskId: todoMap[index]['taskId']);
     });
   }
+
+  Future<void> updateTodoDone(int id, int isDone) async{
+    Database _db = await database();
+    await _db.rawUpdate("UPDATE todo SET isDone = '$isDone' WHERE id = '$id'");
+  }
+
+  Future<void> deleteTask(int id) async{
+    Database _db = await database();
+    await _db.rawDelete("DELETE FROM tasks WHERE id = '$id'");
+    await _db.rawDelete("DELETE FROM todo WHERE taskId = '$id'");
+  }
 }

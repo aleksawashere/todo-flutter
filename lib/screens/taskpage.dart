@@ -22,6 +22,7 @@ class _TaskpageState extends State<Taskpage> {
 
   int _taskId = 0;
   String _taskTitle = "";
+  String _taskDescription = "";
 
   late FocusNode _titleFocus;
   late FocusNode _descriptionFocus;
@@ -36,6 +37,7 @@ class _TaskpageState extends State<Taskpage> {
 
       _contentVisible = true;
       _taskTitle = widget.task!.title;
+      _taskDescription = widget.task!.description;
       _taskId = widget.task!.id;
     }
 
@@ -148,14 +150,16 @@ class _TaskpageState extends State<Taskpage> {
                   visible: _contentVisible,
                   child: TextField(
                     focusNode: _descriptionFocus,
-                    onSubmitted: (value) {
+                    onSubmitted: (value) async {
                       if(value != ""){
                         if(_taskId != 0){
-                          _dbHelper.updateTaskDescription(_taskId, value);
+                          await _dbHelper.updateTaskDescription(_taskId, value);
+                          _taskDescription = value;
                         }
                       }
                       _todoFocus.requestFocus();
                     },
+                    controller: TextEditingController()..text = _taskDescription,
                     decoration: InputDecoration(
                         hintText: "Enter Description for the task...",
                         border: InputBorder.none,
@@ -175,8 +179,17 @@ class _TaskpageState extends State<Taskpage> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: () {
-                                //Switching the todo completion state
+                              onTap: () async {
+                                //Switching the todoo completion state
+                                print("Todo Done: ${snapshot.data[index].isDone}");
+
+                                if(snapshot.data[index].isDone == 0){
+                                  await _dbHelper.updateTodoDone(snapshot.data[index].id, 1);
+                                }
+                                else{
+                                 await _dbHelper.updateTodoDone(snapshot.data[index].id, 0);
+                                }
+                                setState(() {});
                               },
                               child: TodoWidget(
                                 text: snapshot.data[index].title,
@@ -221,16 +234,17 @@ class _TaskpageState extends State<Taskpage> {
                         Expanded(
                           child: TextField(
                             focusNode: _todoFocus,
+                            controller: TextEditingController()..text = "",
                             onSubmitted: (value) async {
                               //check if the field is not empty
                               if (value != "") {
                                 //check if the task is null
-                                if (widget.task != null) {
+                                if (widget.task!=null) {
                                   Todo _newTodo = Todo(
                                     id: valueOfIDTodo,
                                     title: value,
                                     isDone: 0,
-                                    taskId: widget.task!.id,
+                                    taskId: _taskId,
                                   );
 
                                   print("Creating new todo: $_newTodo");
@@ -239,6 +253,7 @@ class _TaskpageState extends State<Taskpage> {
                                   await _dbHelper.insertTodo(_newTodo);
 
                                   setState(() {});
+                                  _todoFocus.requestFocus();
                                 }
                               }
                             },
@@ -260,12 +275,12 @@ class _TaskpageState extends State<Taskpage> {
                 bottom: 24.0,
                 right: 24.0,
                 child: GestureDetector(
-                  // onTap: (){
-                  //   Navigator.push(context,MaterialPageRoute(
-                  //       builder: (context) => Taskpage()
-                  //   ),
-                  //   );
-                  // },
+                  onTap: () async {
+                    if(widget.task!=null){
+                      await _dbHelper.deleteTask(_taskId);
+                      Navigator.pop(context);
+                    }
+                  },
                   child: Container(
                       width: 60.0,
                       height: 60.0,
